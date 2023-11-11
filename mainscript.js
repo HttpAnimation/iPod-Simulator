@@ -3,6 +3,17 @@ let currentSongIndex = 0;
 let shuffledIndexes = [];
 const audio = new Audio();
 
+audio.addEventListener('ended', function() {
+    if (currentSongIndex < audioFiles.length - 1) {
+        currentSongIndex++;
+    } else {
+        currentSongIndex = 0;
+    }
+    audio.src = URL.createObjectURL(audioFiles[currentSongIndex]);
+    audio.play();
+    updateDisplay();
+});
+
 document.getElementById('play').addEventListener('click', function() {
     if (audio.paused) {
         audio.play();
@@ -60,6 +71,7 @@ function resetAudio() {
     if (audioFiles.length > 0) {
         currentSongIndex = 0;
         audio.src = URL.createObjectURL(audioFiles[currentSongIndex]);
+        audio.play();
         updateDisplay();
     } else {
         audio.src = '';
